@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
+        h1 { text-align: center; color: #333; }
+        form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        label { font-weight: bold; margin-bottom: 5px; display: block; color: #555; }
+        input[type="number"] { width: calc(100% - 12px); padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { grid-column: 1 / -1; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+        h2 { text-align: center; color: #333; margin-top: 30px; }
+        .prediction-result { text-align: center; font-size: 20px; color: #28a745; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Prediction Application</h1>
+        <p>Enter the sensor data below to predict the activity.</p>
+        <form action="/predict" method="post">
+            <!-- Sensor Data Features -->
+            <label for="accel_x">Accel X:</label>
+            <input type="number" step="any" id="accel_x" name="accel_x" value="0.1" required>
+
+            <label for="accel_y">Accel Y:</label>
+            <input type="number" step="any" id="accel_y" name="accel_y" value="0.5" required>
+
+            <label for="accel_z">Accel Z:</label>
+            <input type="number" step="any" id="accel_z" name="accel_z" value="-0.3" required>
+
+            <label for="gyro_x">Gyro X:</label>
+            <input type="number" step="any" id="gyro_x" name="gyro_x" value="0.01" required>
+
+            <label for="gyro_y">Gyro Y:</label>
+            <input type="number" step="any" id="gyro_y" name="gyro_y" value="0.02" required>
+
+            <label for="gyro_z">Gyro Z:</label>
+            <input type="number" step="any" id="gyro_z" name="gyro_z" value="-0.01" required>
+
+            <label for="mag_x">Mag X:</label>
+            <input type="number" step="any" id="mag_x" name="mag_x" value="10.0" required>
+
+            <label for="mag_y">Mag Y:</label>
+            <input type="number" step="any" id="mag_y" name="mag_y" value="5.0" required>
+
+            <label for="mag_z">Mag Z:</label>
+            <input type="number" step="any" id="mag_z" name="mag_z" value="2.0" required>
+
+            <label for="accel_mag">Accel Mag:</label>
+            <input type="number" step="any" id="accel_mag" name="accel_mag" value="0.6" required>
+
+            <label for="accel_x_mean">Accel X Mean:</label>
+            <input type="number" step="any" id="accel_x_mean" name="accel_x_mean" value="0.1" required>
+
+            <label for="accel_y_mean">Accel Y Mean:</label>
+            <input type="number" step="any" id="accel_y_mean" name="accel_y_mean" value="0.5" required>
+
+            <label for="accel_z_mean">Accel Z Mean:</label>
+            <input type="number" step="any" id="accel_z_mean" name="accel_z_mean" value="-0.3" required>
+
+            <label for="accel_x_std">Accel X Std:</label>
+            <input type="number" step="any" id="accel_x_std" name="accel_x_std" value="0.1" required>
+
+            <label for="accel_y_std">Accel Y Std:</label>
+            <input type="number" step="any" id="accel_y_std" name="accel_y_std" value="0.15" required>
+
+            <label for="gyro_mag">Gyro Mag:</label>
+            <input type="number" step="any" id="gyro_mag" name="gyro_mag" value="0.03" required>
+
+            <label for="gyro_x_mean">Gyro X Mean:</label>
+            <input type="number" step="any" id="gyro_x_mean" name="gyro_x_mean" value="0.01" required>
+
+            <label for="gyro_y_mean">Gyro Y Mean:</label>
+            <input type="number" step="any" id="gyro_y_mean" name="gyro_y_mean" value="0.02" required>
+
+            <label for="gyro_z_mean">Gyro Z Mean:</label>
+            <input type="number" step="any" id="gyro_z_mean" name="gyro_z_mean" value="-0.01" required>
+
+            <label for="gyro_x_std">Gyro X Std:</label>
+            <input type="number" step="any" id="gyro_x_std" name="gyro_x_std" value="0.005" required>
+
+            <label for="gyro_y_std">Gyro Y Std:</label>
+            <input type="number" step="any" id="gyro_y_std" name="gyro_y_std" value="0.008" required>
+
+            <label for="mag_mag">Mag Mag:</label>
+            <input type="number" step="any" id="mag_mag" name="mag_mag" value="11.0" required>
+
+            <label for="mag_x_std">Mag X Std:</label>
+            <input type="number" step="any" id="mag_x_std" name="mag_x_std" value="0.5" required>
+
+            <label for="mag_y_std">Mag Y Std:</label>
+            <input type="number" step="any" id="mag_y_std" name="mag_y_std" value="0.3" required>
+
+            <label for="heart_rate">Heart Rate:</label>
+            <input type="number" step="any" id="heart_rate" name="heart_rate" value="160.0" required>
+
+            <label for="hour_of_day">Hour of Day (0-23):</label>
+            <input type="number" step="1" id="hour_of_day" name="hour_of_day" value="10" required>
+
+            <label for="day_of_week">Day of Week (0=Mon, 6=Sun):</label>
+            <input type="number" step="1" id="day_of_week" name="day_of_week" value="1" required>
+
+            <button type="submit">Predict Activity</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="prediction-result">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
